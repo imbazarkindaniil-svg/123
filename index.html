@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Stock | Интернет-магазин</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #1a1a1a;
+            --accent: #ff3366;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray: #6c757d;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.15);
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #ff3366 0%, #ff6b6b 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--secondary);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: var(--white);
+            border-radius: 25px;
+            padding: 0.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: var(--gradient-accent);
+            color: var(--white);
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 3rem;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 50px;
+            font-size: 0.95rem;
+            background: var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(255, 51, 102, 0.1);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cart-btn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .cart-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent);
+            color: var(--white);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(26,26,26,0.95) 100%);
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--gradient-accent);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            letter-spacing: -2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-accent);
+            color: var(--white);
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: block;
+        }
+
+        .category-page, .product-page {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .category-page.active, .product-page.active {
+            display: block;
+        }
+
+        /* Categories Section */
+        .categories-section {
+            padding: 5rem 0;
+            background: var(--gray-light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: var(--white);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1/1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .category-image {
+            flex: 1;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 3rem;
+        }
+
+        .category-name {
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--white);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+        }
+
+        .product-info {
+            text-align: center;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* Product Detail Page */
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 1.2rem;
+        }
+
+        .thumbnails {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .thumbnail {
+            height: 100px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .thumbnail.active {
+            border: 2px solid var(--accent);
+        }
+
+        .product-info-detail {
+            padding: 2rem 0;
+        }
+
+        .product-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .product-price-detail {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 2rem;
+        }
+
+        .product-description {
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .add-to-cart-section {
+            margin-top: 2rem;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--gradient-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Brands Section */
+        .brands-section {
+            padding: 4rem 0;
+            background: var(--white);
+        }
+
+        .brands-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .brand-card {
+            background: var(--gray-light);
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .brand-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-section a {
+            display: block;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--white);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Cart Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .cart-items {
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            background: var(--gray-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .cart-item-price {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .cart-total {
+            text-align: right;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(0,0,0,0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .categories-grid, .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .brands-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .search-bar {
+                margin: 1rem 0;
+                max-width: 100%;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .categories-grid, .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .brands-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .product-detail {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .categories-grid, .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .brands-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+            }
+            
+            .language-selector {
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="ua">UA</button>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="logo" onclick="showMainPage()">First Stock</div>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="🔍 Поиск товаров...">
+                </div>
+                
+                <div class="header-actions">
+                    <button class="cart-btn" onclick="showCart()">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <div class="user-avatar">ИИ</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content" id="main-page">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content animate-fadeInUp">
+                    <div class="hero-badge">NEW SALE</div>
+                    <h1 class="hero-title">FIRST STOCK</h1>
+                    <p class="hero-subtitle" id="hero-subtitle">Лучшие товары по доступным ценам</p>
+                    <div class="hero-cta">
+                        <button class="btn-primary" id="catalog-btn" onclick="openCategory('new')">Смотреть каталог</button>
+                        <button class="btn-secondary" id="sales-btn" onclick="openCategory('sale')">Акции</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <div class="container">
+                <div class="section-header animate-fadeInUp">
+                    <h2 class="section-title" id="categories-title">Категории</h2>
+                </div>
+                
+                <div class="categories-grid">
+                    <div class="category-card animate-fadeInUp" style="animation-delay: 0.1s" onclick="openCategory('new')">
+                        <div class="category-image">🆕</div>
+                        <div class="category-name" data-ru="Новинки" data-ua="Новинки">Новинки</div>
+                    </div>
+                    
+                    <div class="category-card animate-fadeInUp" style="animation-delay: 0.2s" onclick="openCategory('sale')">
+                        <div class="category-image">🔥</div>
+                        <div class="category-name" data-ru="Распродажа" data-ua="Розпродаж">Распродажа</div>
+                    </div>
+                    
+                    <div class="category-card animate-fadeInUp" style="animation-delay: 0.3s" onclick="openCategory('hats')">
+                        <div class="category-image">🧢</div>
+                        <div class="category-name" data-ru="Головные уборы" data-ua="Головні убори">Головные уборы</div>
+                    </div>
+                    
+                    <div class="category-card animate-fadeInUp" style="animation-delay: 0.4s" onclick="openCategory('outerwear')">
+                        <div class="category-image">🧥</div>
+                        <div class="category-name" data-ru="Верхняя одежда" data-ua="Верхній одяг">Верхняя одежда</div>
+                    </div>
+                    
+                    <div class="category-card animate-fadeInUp" style="animation-delay: 0.5s" onclick="openCategory('hoodies')">
+                        <div class="category-image">👕</div>
+                        <div class="category-name" data-ru="Худи и толстовки" data-ua="Худі та толстовки">Худи и толстовки</div>
+                    </div>
+                    
+                    <div class="category-card animate-fadeInUp" style="animation-delay: 0.6s" onclick="openCategory('pants')">
+                        <div class="category-image">👖</div>
+                        <div class="category-name" data-ru="Штаны" data-ua="Штани">Штаны</div>
+                    </div>
+                    
+                    <div class="category-card animate-fadeInUp" style="animation-delay: 0.7s" onclick="openCategory('tshirts')">
+                        <div class="category-image">👚</div>
+                        <div class="category-name" data-ru="Футболки" data-ua="Футболки">Футболки</div>
+                    </div>
+                    
+                    <div class="category-card animate-fadeInUp" style="animation-delay: 0.8s" onclick="openCategory('shorts')">
+                        <div class="category-image">🩳</div>
+                        <div class="category-name" data-ru="Шорты" data-ua="Шорти">Шорты</div>
+                    </div>
+                    
+                    <div class="category-card animate-fadeInUp" style="animation-delay: 0.9s" onclick="openCategory('shoes')">
+                        <div class="category-image">👟</div>
+                        <div class="category-name" data-ru="Кроссовки" data-ua="Кросівки">Кроссовки</div>
+                    </div>
+                    
+                    <div class="category-card animate-fadeInUp" style="animation-delay: 1.0s" onclick="openCategory('bags')">
+                        <div class="category-image">🎒</div>
+                        <div class="category-name" data-ru="Рюкзаки и сумки" data-ua="Рюкзаки та сумки">Рюкзаки и сумки</div>
+                    </div>
+                    
+                    <div class="category-card animate-fadeInUp" style="animation-delay: 1.1s" onclick="openCategory('accessories')">
+                        <div class="category-image">🕶️</div>
+                        <div class="category-name" data-ru="Аксессуары" data-ua="Аксесуари">Аксессуары</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Brands Section -->
+        <section class="brands-section">
+            <div class="container">
+                <div class="section-header animate-fadeInUp">
+                    <h2 class="section-title" id="brands-title">Бренды</h2>
+                </div>
+                
+                <div class="brands-grid">
+                    <div class="brand-card animate-fadeInUp" style="animation-delay: 0.1s">
+                        <div class="brand-image">ДИЗОЛ</div>
+                    </div>
+                    
+                    <div class="brand-card animate-fadeInUp" style="animation-delay: 0.2s">
+                        <div class="brand-image">SNBA</div>
+                    </div>
+                    
+                    <div class="brand-card animate-fadeInUp" style="animation-delay: 0.3s">
+                        <div class="brand-image">NIKE</div>
+                    </div>
+                    
+                    <div class="brand-card animate-fadeInUp" style="animation-delay: 0.4s">
+                        <div class="brand-image">ADID</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Category Pages -->
+    <div id="category-pages">
+        <!-- Category pages will be generated dynamically -->
+    </div>
+
+    <!-- Product Pages -->
+    <div id="product-pages">
+        <!-- Product pages will be generated dynamically -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>First Stock</h3>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">Интернет-магазин одежды и обуви</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <i class="fab fa-instagram" style="font-size: 1.2rem; cursor: pointer;"></i>
+                        <i class="fab fa-telegram" style="font-size: 1.2rem; cursor: pointer;"></i>
+                        <i class="fab fa-vk" style="font-size: 1.2rem; cursor: pointer;"></i>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 id="footer-categories">Категории</h3>
+                    <a href="#" onclick="openCategory('new')">Новинки</a>
+                    <a href="#" onclick="openCategory('sale')">Распродажа</a>
+                    <a href="#" onclick="openCategory('outerwear')">Одежда</a>
+                    <a href="#" onclick="openCategory('shoes')">Обувь</a>
+                    <a href="#" onclick="openCategory('accessories')">Аксессуары</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 id="footer-help">Помощь</h3>
+                    <a href="#" id="footer-delivery">Доставка</a>
+                    <a href="#" id="footer-returns">Возврат</a>
+                    <a href="#" id="footer-sizes">Размеры</a>
+                    <a href="#" id="footer-payment">Оплата</a>
+                    <a href="#" id="footer-contacts">Контакты</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 id="footer-contacts-title">Контакты</h3>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 0.8rem;">+7 (999) 123-45-67</p>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 0.8rem;">info@firststock.ru</p>
+                    <p style="color: rgba(255,255,255,0.7);">Москва, ул. Примерная, 123</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 First Stock. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cart-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="cart-title">Корзина</h3>
+                <button class="close-modal" onclick="closeCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be added here -->
+            </div>
+            <div class="cart-total">
+                <span id="cart-total-text">Итого:</span> <span id="cart-total-price">0</span> ₴
+            </div>
+            <button class="btn-primary" id="checkout-btn" style="width: 100%; margin-top: 1rem;">Оформить заказ</button>
+        </div>
+    </div>
+
+    <script>
+        // Product Data with Ukrainian translations
+        const productsData = {
+            'new': [
+                { 
+                    id: 1, 
+                    name: { ru: "Кроссовки Nike Air Max", ua: "Кросівки Nike Air Max" }, 
+                    price: 4599, 
+                    images: ["👟 Вид 1", "👟 Вид 2", "👟 Вид 3"], 
+                    description: {
+                        ru: "Стильные кроссовки Nike Air Max с технологией амортизации. Идеальны для повседневной носки и спорта.",
+                        ua: "Стильні кросівки Nike Air Max з технологією амортизації. Ідеальні для повсякденного носіння та спорту."
+                    } 
+                },
+                { 
+                    id: 2, 
+                    name: { ru: "Худи Oversize Black", ua: "Худі Oversize Black" }, 
+                    price: 2199, 
+                    images: ["👕 Вид 1", "👕 Вид 2", "👕 Вид 3"], 
+                    description: {
+                        ru: "Уютное худи оверсайз черного цвета. Мягкий хлопок, свободный крой.",
+                        ua: "Затишне худі оверсайз чорного кольору. М'яка бавовна, вільний крій."
+                    } 
+                },
+                { 
+                    id: 3, 
+                    name: { ru: "Куртка зимняя", ua: "Куртка зимова" }, 
+                    price: 3299, 
+                    images: ["🧥 Вид 1", "🧥 Вид 2", "🧥 Вид 3"], 
+                    description: {
+                        ru: "Теплая зимняя куртка с утеплителем. Водоотталкивающая пропитка.",
+                        ua: "Тепла зимова куртка з утеплювачем. Водовідштовхувальна пропитка."
+                    } 
+                },
+                { 
+                    id: 4, 
+                    name: { ru: "Джинсы Slim Fit", ua: "Джинси Slim Fit" }, 
+                    price: 1599, 
+                    images: ["👖 Вид 1", "👖 Вид 2", "👖 Вид 3"], 
+                    description: {
+                        ru: "Классические джинсы slim fit. Ультра-стрейч ткань для комфорта.",
+                        ua: "Класичні джинси slim fit. Ультра-стрейч тканина для комфорту."
+                    } 
+                },
+                { 
+                    id: 5, 
+                    name: { ru: "Рюкзак Urban", ua: "Рюкзак Urban" }, 
+                    price: 1299, 
+                    images: ["🎒 Вид 1", "🎒 Вид 2", "🎒 Вид 3"], 
+                    description: {
+                        ru: "Городской рюкзак с современным дизайном. Вместительный и практичный.",
+                        ua: "Міський рюкзак з сучасним дизайном. Місткий та практичний."
+                    } 
+                }
+            ],
+            'sale': [
+                { 
+                    id: 6, 
+                    name: { ru: "Футболка Basic", ua: "Футболка Basic" }, 
+                    price: 499, 
+                    images: ["👚 Вид 1", "👚 Вид 2", "👚 Вид 3"], 
+                    description: {
+                        ru: "Базовая футболка из 100% хлопка. Классический крой.",
+                        ua: "Базова футболка з 100% бавовни. Класичний крій."
+                    } 
+                },
+                { 
+                    id: 7, 
+                    name: { ru: "Кепка Baseball", ua: "Кепка Baseball" }, 
+                    price: 399, 
+                    images: ["🧢 Вид 1", "🧢 Вид 2", "🧢 Вид 3"], 
+                    description: {
+                        ru: "Классическая бейсболка с регулируемой застежкой.",
+                        ua: "Класична бейсболка з регульованою застібкою."
+                    } 
+                },
+                { 
+                    id: 8, 
+                    name: { ru: "Шорты Casual", ua: "Шорти Casual" }, 
+                    price: 699, 
+                    images: ["🩳 Вид 1", "🩳 Вид 2", "🩳 Вид 3"], 
+                    description: {
+                        ru: "Летние шорты из легкой ткани. Эластичный пояс для комфорта.",
+                        ua: "Літні шорти з легкої тканини. Еластичний пояс для комфорту."
+                    } 
+                },
+                { 
+                    id: 9, 
+                    name: { ru: "Толстовка Sport", ua: "Толстовка Sport" }, 
+                    price: 899, 
+                    images: ["👕 Вид 1", "👕 Вид 2", "👕 Вид 3"], 
+                    description: {
+                        ru: "Спортивная толстовка с капюшоном. Удобная и стильная.",
+                        ua: "Спортивна толстовка з капюшоном. Зручна та стильна."
+                    } 
+                },
+                { 
+                    id: 10, 
+                    name: { ru: "Кроссовки Runner", ua: "Кросівки Runner" }, 
+                    price: 1999, 
+                    images: ["👟 Вид 1", "👟 Вид 2", "👟 Вид 3"], 
+                    description: {
+                        ru: "Беговые кроссовки с амортизирующей подошвой.",
+                        ua: "Бігові кросівки з амортизуючою підошвою."
+                    } 
+                }
+            ],
+            'hats': [
+                { 
+                    id: 11, 
+                    name: { ru: "Бейсболка NY", ua: "Бейсболка NY" }, 
+                    price: 599, 
+                    images: ["🧢 Вид 1", "🧢 Вид 2", "🧢 Вид 3"], 
+                    description: {
+                        ru: "Классическая бейсболка с логотипом New York.",
+                        ua: "Класична бейсболка з логотипом New York."
+                    } 
+                },
+                { 
+                    id: 12, 
+                    name: { ru: "Кепка Snapback", ua: "Кепка Snapback" }, 
+                    price: 699, 
+                    images: ["🧢 Вид 1", "🧢 Вид 2", "🧢 Вид 3"], 
+                    description: {
+                        ru: "Кепка с прямым козырьком. Современный дизайн.",
+                        ua: "Кепка з прямим козирком. Сучасний дизайн."
+                    } 
+                },
+                { 
+                    id: 13, 
+                    name: { ru: "Шапка Beanie", ua: "Шапка Beanie" }, 
+                    price: 399, 
+                    images: ["🧶 Вид 1", "🧶 Вид 2", "🧶 Вид 3"], 
+                    description: {
+                        ru: "Вязаная шапка бини. Теплый акрил.",
+                        ua: "В'язана шапка біні. Теплий акрил."
+                    } 
+                },
+                { 
+                    id: 14, 
+                    name: { ru: "Панама Summer", ua: "Панама Summer" }, 
+                    price: 499, 
+                    images: ["👒 Вид 1", "👒 Вид 2", "👒 Вид 3"], 
+                    description: {
+                        ru: "Летняя панама с защитой от солнца.",
+                        ua: "Літня панама з захистом від сонця."
+                    } 
+                },
+                { 
+                    id: 15, 
+                    name: { ru: "Бейсболка Classic", ua: "Бейсболка Classic" }, 
+                    price: 549, 
+                    images: ["🧢 Вид 1", "🧢 Вид 2", "🧢 Вид 3"], 
+                    description: {
+                        ru: "Классическая бейсболка с регулируемой застежкой.",
+                        ua: "Класична бейсболка з регульованою застібкою."
+                    } 
+                }
+            ]
+        };
+
+        const categoryNames = {
+            'new': { ru: 'Новинки', ua: 'Новинки' },
+            'sale': { ru: 'Распродажа', ua: 'Розпродаж' },
+            'hats': { ru: 'Головные уборы', ua: 'Головні убори' },
+            'outerwear': { ru: 'Верхняя одежда', ua: 'Верхній одяг' },
+            'hoodies': { ru: 'Худи и толстовки', ua: 'Худі та толстовки' },
+            'pants': { ru: 'Штаны', ua: 'Штани' },
+            'tshirts': { ru: 'Футболки', ua: 'Футболки' },
+            'shorts': { ru: 'Шорты', ua: 'Шорти' },
+            'shoes': { ru: 'Кроссовки', ua: 'Кросівки' },
+            'bags': { ru: 'Рюкзаки и сумки', ua: 'Рюкзаки та сумки' },
+            'accessories': { ru: 'Аксессуары', ua: 'Аксесуари' }
+        };
+
+        let cart = [];
+        let currentLanguage = 'ru';
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeLanguage();
+            generateCategoryPages();
+            generateProductPages();
+            updateCartCount();
+        });
+
+        // Language functionality
+        function initializeLanguage() {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    currentLanguage = lang;
+                    
+                    // Update active button
+                    langButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update all texts
+                    updateAllTexts(lang);
+                });
+            });
+        }
+
+        function updateAllTexts(lang) {
+            // Update main page texts
+            document.getElementById('search-input').placeholder = lang === 'ru' ? '🔍 Поиск товаров...' : '🔍 Пошук товарів...';
+            document.getElementById('hero-subtitle').textContent = lang === 'ru' ? 'Лучшие товары по доступным ценам' : 'Найкращі товари за доступними цінами';
+            document.getElementById('catalog-btn').textContent = lang === 'ru' ? 'Смотреть каталог' : 'Дивитися каталог';
+            document.getElementById('sales-btn').textContent = lang === 'ru' ? 'Акции' : 'Акції';
+            document.getElementById('categories-title').textContent = lang === 'ru' ? 'Категории' : 'Категорії';
+            document.getElementById('brands-title').textContent = lang === 'ru' ? 'Бренды' : 'Бренди';
+            
+            // Update footer texts
+            document.getElementById('footer-categories').textContent = lang === 'ru' ? 'Категории' : 'Категорії';
+            document.getElementById('footer-help').textContent = lang === 'ru' ? 'Помощь' : 'Допомога';
+            document.getElementById('footer-delivery').textContent = lang === 'ru' ? 'Доставка' : 'Доставка';
+            document.getElementById('footer-returns').textContent = lang === 'ru' ? 'Возврат' : 'Повернення';
+            document.getElementById('footer-sizes').textContent = lang === 'ru' ? 'Размеры' : 'Розміри';
+            document.getElementById('footer-payment').textContent = lang === 'ru' ? 'Оплата' : 'Оплата';
+            document.getElementById('footer-contacts').textContent = lang === 'ru' ? 'Контакты' : 'Контакти';
+            document.getElementById('footer-contacts-title').textContent = lang === 'ru' ? 'Контакты' : 'Контакти';
+            
+            // Update cart modal texts
+            document.getElementById('cart-title').textContent = lang === 'ru' ? 'Корзина' : 'Кошик';
+            document.getElementById('cart-total-text').textContent = lang === 'ru' ? 'Итого:' : 'Разом:';
+            document.getElementById('checkout-btn').textContent = lang === 'ru' ? 'Оформить заказ' : 'Оформити замовлення';
+            
+            // Update category names
+            document.querySelectorAll('.category-name').forEach(element => {
+                const ruText = element.getAttribute('data-ru');
+                const uaText = element.getAttribute('data-ua');
+                element.textContent = lang === 'ru' ? ruText : uaText;
+            });
+            
+            // Update back buttons
+            document.querySelectorAll('.back-btn').forEach(btn => {
+                if (btn.textContent.includes('Назад')) {
+                    btn.innerHTML = lang === 'ru' ? '<i class="fas fa-arrow-left"></i> Назад' : '<i class="fas fa-arrow-left"></i> Назад';
+                }
+            });
+            
+            // Update add to cart buttons
+            document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                btn.textContent = lang === 'ru' ? 'Добавить в корзину' : 'Додати в кошик';
+            });
+            
+            // Update product names and descriptions in category pages
+            updateProductPagesLanguage(lang);
+        }
+
+        function updateProductPagesLanguage(lang) {
+            // Update product names in category pages
+            document.querySelectorAll('.product-name').forEach(element => {
+                const productId = parseInt(element.closest('.product-card').getAttribute('data-product-id'));
+                if (productId) {
+                    const product = getProductById(productId);
+                    if (product) {
+                        element.textContent = product.name[lang];
+                    }
+                }
+            });
+            
+            // Update product details in product pages
+            document.querySelectorAll('.product-title').forEach(element => {
+                const productId = parseInt(element.closest('.product-page').id.replace('product-', ''));
+                if (productId) {
+                    const product = getProductById(productId);
+                    if (product) {
+                        element.textContent = product.name[lang];
+                    }
+                }
+            });
+            
+            document.querySelectorAll('.product-description').forEach(element => {
+                const productId = parseInt(element.closest('.product-page').id.replace('product-', ''));
+                if (productId) {
+                    const product = getProductById(productId);
+                    if (product) {
+                        element.textContent = product.description[lang];
+                    }
+                }
+            });
+            
+            // Update back buttons in product pages
+            document.querySelectorAll('.product-page .back-btn').forEach(btn => {
+                const productId = parseInt(btn.closest('.product-page').id.replace('product-', ''));
+                if (productId) {
+                    const product = getProductById(productId);
+                    if (product) {
+                        const category = Object.keys(productsData).find(cat => 
+                            productsData[cat].some(p => p.id === productId)
+                        );
+                        if (category) {
+                            const categoryName = categoryNames[category][lang];
+                            btn.innerHTML = lang === 'ru' 
+                                ? `<i class="fas fa-arrow-left"></i> Назад к ${categoryName}`
+                                : `<i class="fas fa-arrow-left"></i> Назад до ${categoryName}`;
+                        }
+                    }
+                }
+            });
+        }
+
+        // Page navigation
+        function showMainPage() {
+            document.getElementById('main-page').style.display = 'block';
+            document.querySelectorAll('.category-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.querySelectorAll('.product-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            window.scrollTo(0, 0);
+        }
+
+        function openCategory(category) {
+            document.getElementById('main-page').style.display = 'none';
+            document.querySelectorAll('.category-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.querySelectorAll('.product-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            const categoryPage = document.getElementById(`category-${category}`);
+            if (categoryPage) {
+                categoryPage.style.display = 'block';
+            }
+            
+            window.scrollTo(0, 0);
+        }
+
+        function openProduct(productId) {
+            document.getElementById('main-page').style.display = 'none';
+            document.querySelectorAll('.category-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.querySelectorAll('.product-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            const productPage = document.getElementById(`product-${productId}`);
+            if (productPage) {
+                productPage.style.display = 'block';
+            }
+            
+            window.scrollTo(0, 0);
+        }
+
+        // Generate category pages dynamically
+        function generateCategoryPages() {
+            const container = document.getElementById('category-pages');
+            
+            for (const [category, products] of Object.entries(productsData)) {
+                const categoryPage = document.createElement('div');
+                categoryPage.id = `category-${category}`;
+                categoryPage.className = 'category-page';
+                
+                categoryPage.innerHTML = `
+                    <div class="container">
+                        <button class="back-btn" onclick="showMainPage()">
+                            <i class="fas fa-arrow-left"></i> Назад
+                        </button>
+                        <div class="section-header">
+                            <h2 class="section-title">${categoryNames[category][currentLanguage]}</h2>
+                        </div>
+                        <div class="products-grid" id="products-${category}">
+                            ${products.map(product => `
+                                <div class="product-card" data-product-id="${product.id}" onclick="openProduct(${product.id})">
+                                    <div class="product-image">${product.images[0]}</div>
+                                    <div class="product-info">
+                                        <div class="product-name">${product.name[currentLanguage]}</div>
+                                        <div class="product-price">${product.price} ₴</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(categoryPage);
+            }
+        }
+
+        // Generate product pages dynamically
+        function generateProductPages() {
+            const container = document.getElementById('product-pages');
+            
+            for (const [category, products] of Object.entries(productsData)) {
+                products.forEach(product => {
+                    const productPage = document.createElement('div');
+                    productPage.id = `product-${product.id}`;
+                    productPage.className = 'product-page';
+                    
+                    productPage.innerHTML = `
+                        <div class="container">
+                            <button class="back-btn" onclick="openCategory('${category}')">
+                                <i class="fas fa-arrow-left"></i> Назад к ${categoryNames[category][currentLanguage]}
+                            </button>
+                            <div class="product-detail">
+                                <div class="product-gallery">
+                                    <div class="main-image">${product.images[0]}</div>
+                                    <div class="thumbnails">
+                                        ${product.images.map((img, index) => `
+                                            <div class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeProductImage(${product.id}, ${index})">
+                                                ${img}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                <div class="product-info-detail">
+                                    <h1 class="product-title">${product.name[currentLanguage]}</h1>
+                                    <div class="product-price-detail">${product.price} ₴</div>
+                                    <p class="product-description">${product.description[currentLanguage]}</p>
+                                    <div class="add-to-cart-section">
+                                        <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+                                            ${currentLanguage === 'ru' ? 'Добавить в корзину' : 'Додати в кошик'}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(productPage);
+                });
+            }
+        }
+
+        // Product image gallery
+        function changeProductImage(productId, imageIndex) {
+            const product = getProductById(productId);
+            if (!product) return;
+            
+            const productPage = document.getElementById(`product-${productId}`);
+            const mainImage = productPage.querySelector('.main-image');
+            const thumbnails = productPage.querySelectorAll('.thumbnail');
+            
+            mainImage.textContent = product.images[imageIndex];
+            
+            thumbnails.forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === imageIndex);
+            });
+        }
+
+        // Cart functionality
+        function addToCart(productId) {
+            const product = getProductById(productId);
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            alert(currentLanguage === 'ru' ? 'Товар добавлен в корзину!' : 'Товар додано до кошика!');
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartCount();
+            updateCartModal();
+        }
+
+        function updateCartCount() {
+            const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = cartCount;
+        }
+
+        function showCart() {
+            updateCartModal();
+            document.getElementById('cart-modal').style.display = 'block';
+        }
+
+        function closeCart() {
+            document.getElementById('cart-modal').style.display = 'none';
+        }
+
+        function updateCartModal() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const totalPriceElement = document.getElementById('cart-total-price');
+            
+            cartItemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `<p style="text-align: center; padding: 2rem;">${currentLanguage === 'ru' ? 'Корзина пуста' : 'Кошик порожній'}</p>`;
+            } else {
+                cart.forEach(item => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <div class="cart-item-image">${getProductById(item.id).images[0]}</div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name[currentLanguage]}</div>
+                            <div class="cart-item-price">${item.price} ₴ × ${item.quantity}</div>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart(${item.id})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    cartItemsContainer.appendChild(cartItem);
+                });
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            totalPriceElement.textContent = total;
+        }
+
+        // Helper functions
+        function getProductById(productId) {
+            for (const category of Object.values(productsData)) {
+                const product = category.find(p => p.id === productId);
+                if (product) return product;
+            }
+            return null;
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('cart-modal');
+            if (event.target === modal) {
+                closeCart();
+            }
+        });
+    </script>
+</body>
+</html>
